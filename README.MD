@@ -10,7 +10,7 @@
 ## 安装过程
 
 1. 下载项目，并在目录下创建一个虚拟环境（推荐）；
-2. 在项目目录下，虚拟环境中下执行```pip install -r requirements.txt ```；
+2. 在项目目录下，虚拟环境中执行```pip install -r requirements.txt ```；
 3. 修改```tgapi.py```中的tgwebui api地址、角色卡和生成设置（tgwebui的角色卡位于```text-generation-webui\characters```目录下，提示词位于```text-generation-webui\characters\instruction-following```目录下）。
 4. 修改```mybot.py```中的mattermost URL地址和机器人账户token；
 5. 执行```python mybot.py```启动机器人。
