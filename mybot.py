@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from mmpy_bot import Bot, Settings
-from chat import TestPlugin
+from chat import ChatPlugin
 
 bot = Bot(
     settings=Settings(
