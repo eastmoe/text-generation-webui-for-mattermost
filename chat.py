@@ -21,7 +21,7 @@ import tgapi_model
 # 当被@的时候收到对话+空格+任意字符，在回复里回复
 '
 """
-class TestPlugin(Plugin):
+class ChatPlugin(Plugin):
 
     # 定义对话历史记录及上次输出内容为空
     logarr = []
@@ -57,21 +57,21 @@ class TestPlugin(Plugin):
     @listen_to('对话 (.*)')
     async def chat(self, message, chat_in,):
         # 将上一次对话的内容以及本次的用户输入存入History
-        TestPlugin.logarr = ["ChatGLM："+TestPlugin.outtext+"用户："+chat_in, '']
-        TestPlugin.historydata ={'internal': [TestPlugin.logarr], 'visible': [TestPlugin.logarr]}
+        ChatPlugin.logarr = ["ChatGLM："+TestPlugin.outtext+"用户："+chat_in, '']
+        ChatPlugin.historydata ={'internal': [TestPlugin.logarr], 'visible': [TestPlugin.logarr]}
         # 获取API直接返回的信息
         api_response=tgapi.run(user_input=chat_in,history=TestPlugin.historydata)
         # 利用函数提取返回信息中AI直接回复的内容
-        TestPlugin.outtext=TestPlugin.getresponse(self,api_response)
+        ChatPlugin.outtext=TestPlugin.getresponse(self,api_response)
         # 直接发布主题回复用户
         self.driver.create_post(channel_id=message.channel_id, message='%s' % TestPlugin.outtext)
 
     @listen_to("重置")
     async def reset(self,message):
         # 定义对话历史记录及上次输出内容为空
-        TestPlugin.logarr = []
-        TestPlugin.outtext = ""
-        TestPlugin.historydata = {'internal': [], 'visible': []}
+        ChatPlugin.logarr = []
+        ChatPlugin.outtext = ""
+        ChatPlugin.historydata = {'internal': [], 'visible': []}
         #提示重置完成
         self.driver.create_post(channel_id=message.channel_id, message='**对话已被重置。**')
 
