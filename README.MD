@@ -14,7 +14,7 @@
 3. 修改```tgapi.py```中的tgwebui api地址、角色卡和生成设置（tgwebui的角色卡位于```text-generation-webui\characters```目录下，提示词位于```text-generation-webui\characters\instruction-following```目录下）。
 4. 修改```mybot.py```中的mattermost URL地址和机器人账户token；
 5. 执行```python mybot.py```启动机器人。
-6. 在与机器人交流的对话框中输入```*help```查看使用帮助
+6. 在与机器人交流的对话框中输入```#help```查看使用帮助
 ## 截图
 
 ![图片](img/1.PNG)
