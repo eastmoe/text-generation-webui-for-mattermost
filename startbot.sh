@@ -1,0 +1,6 @@
+#!/bin/bash
+echo Enter Virtualenv ...
+source ./linuxenv/bin/activate
+echo Starting MatterMostBot...
+python mybot.py
+
