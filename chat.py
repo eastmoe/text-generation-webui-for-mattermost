@@ -39,18 +39,19 @@ class ChatPlugin(Plugin):
     async def give_me(self, message, something):
         self.driver.reply_to(message, 'Here is %s' % something)
 
+    # 帮助信息
     @listen_to("#help")
     async def help_reply(self, message):
         self.driver.create_post(channel_id=message.channel_id, message=
         '## 使用帮助'
         +'\n发送“**对话 + 空格 + 内容**”，即可与机器人对话；'
+        +'\n发送“**#continue**”，继续生成对话；'
         +'\n发送“**#reset**”可重置当前对话的历史记忆；'
         +'\n发送“**#modellist**”可查看对应的text-generation webui的模型列表；'
         +'\n发送“**#model**”可查看当前模型信息；'
         +'\n发送“**#switchmodelto + 空格 + 完整的模型名称**”可切换模型；'
         +'\n发送“**#help**”可返回本文本。'
         )
-
 
 
     # AI对话功能，输入的触发词为对话+空格，后面是内容
@@ -65,6 +66,20 @@ class ChatPlugin(Plugin):
         ChatPlugin.outtext=TestPlugin.getresponse(self,api_response)
         # 直接发布主题回复用户
         self.driver.create_post(channel_id=message.channel_id, message='%s' % TestPlugin.outtext)
+
+    # 继续输出上一段话的功能
+    @listen_to('#continue')
+    async def chat(self, message,):
+        # 将上一次对话的内容以及本次的继续存入History
+        ChatPlugin.logarr = ["ChatGLM："+ChatPlugin.outtext+"用户：继续"]
+        ChatPlugin.historydata ={'internal': [ChatPlugin.logarr], 'visible': [ChatPlugin.logarr]}
+        # 获取API直接返回的信息
+        api_response=tgapi.run(user_input=chat_in,history=ChatPlugin.historydata)
+        # 利用函数提取返回信息中AI直接回复的内容
+        ChatPlugin.outtext=ChatPlugin.getresponse(self,api_response)
+        # 直接发布主题回复用户
+        self.driver.create_post(channel_id=message.channel_id, message='%s' % ChatPlugin.outtext)
+
 
     @listen_to("#reset")
     async def reset(self,message):
